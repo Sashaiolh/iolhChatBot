@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.sashaiolh.iolhchatbot.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "iolhChatBot.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
