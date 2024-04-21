@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.sashaiolh.iolhchatbot.Utils.ConfigFile;
 
 public class ConfigFilesManager {
-    static final String CONFIG_FOLDER = "config/";
+    static final String CONFIG_FOLDER = "config/"+IolhChatBot.MODID + "/";
     private static final String CONFIG_FILE = "iolhConfigFiles.txt";
     private static final Logger LOGGER = Logger.getLogger(BadWordsManager.class.getName());
 
@@ -55,11 +55,12 @@ public class ConfigFilesManager {
 
             List<String> defaultLines = new ArrayList<>();
 
-            defaultLines.add("iolhConfigFiles.txt\n");
             defaultLines.add("iolhchatbot/rules.txt\n");
             defaultLines.add("iolhchatbot/questions.txt\n");
             defaultLines.add("iolhchatbot/badwords.txt\n");
             defaultLines.add("iolhchatbot/ChatBotConfig.cfg\n");
+
+//            defaultLines.add("iolhchatbot/iolhConfigFiles.txt\n"); Безопасность уровень хлебушек
 
             for(String line : defaultLines){
                 writer.write(line);

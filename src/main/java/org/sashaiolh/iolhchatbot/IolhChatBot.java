@@ -36,6 +36,7 @@ public class IolhChatBot {
     private static final Logger LOGGER = LogUtils.getLogger();
     public static ConfigManager configManager;
     public static RulesManager rulesManager;
+    public static BadWordsManager badWordsManager;
 
 
 
@@ -43,29 +44,32 @@ public class IolhChatBot {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    public static void registerConfigs(){
+        ConfigFilesManager.init();
+        configManager = new ConfigManager();
+
+        BadWordsManager.init();
+        badWordsManager = new BadWordsManager();
+
+        rulesManager = new RulesManager();
+        RulesManager.main(rulesManager);
+
+    }
+
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
-        ConfigFilesManager.init();
-
-        configManager = new ConfigManager();
+        registerConfigs();
 
         ReloadCommand.register(dispatcher);
         ChatBotCommands.register(dispatcher);
 
-        BadWordsManager.init();
-
-
-        rulesManager = new RulesManager();
-        RulesManager.main(rulesManager);
         RuleCommand.register(dispatcher, rulesManager);
 
 
         LOGGER.info("Registered commands.");
-
-
     }
 
     @Mod.EventBusSubscriber(modid = IolhChatBot.MODID)

@@ -24,10 +24,7 @@ public class ReloadCommand {
                         .then(Commands.literal("reload")
                         .requires(source -> source.hasPermission(2))
                             .executes(context -> {
-                                ConfigFilesManager.init();
-                                BadWordsManager.init();
-                                configManager = new ConfigManager();
-                                badWordsManager = new
+                                IolhChatBot.registerConfigs();
                                 sendMessage(context.getSource().getPlayerOrException(), "Конфиг бота был перезагружен.");
                                 return 1;
                             })
