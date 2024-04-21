@@ -7,7 +7,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
+    import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
@@ -18,13 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import org.sashaiolh.iolhchatbot.Commands.ChatBotCommands;
 import org.sashaiolh.iolhchatbot.Commands.ReloadCommand;
 import org.sashaiolh.iolhchatbot.Commands.RuleCommand;
-import org.sashaiolh.iolhchatbot.Commands.TestCommand;
 import org.sashaiolh.iolhchatbot.Utils.BadWord;
 import org.slf4j.Logger;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -51,10 +47,11 @@ public class IolhChatBot {
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        configManager = new ConfigManager();
-//        ConfigManager.init();
 
-        TestCommand.register(dispatcher);
+        ConfigFilesManager.init();
+
+        configManager = new ConfigManager();
+
         ReloadCommand.register(dispatcher);
         ChatBotCommands.register(dispatcher);
 

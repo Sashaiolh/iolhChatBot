@@ -7,9 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import org.sashaiolh.iolhchatbot.ConfigManager;
-import org.sashaiolh.iolhchatbot.IolhChatBot;
-import org.sashaiolh.iolhchatbot.RulesManager;
+import org.sashaiolh.iolhchatbot.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,13 +23,14 @@ public class ReloadCommand {
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("reload")
                         .requires(source -> source.hasPermission(2))
-                        .then(Commands.literal("config")
-                                .executes(context -> {
-                                    configManager = new ConfigManager();
-                                    sendMessage(context.getSource().getPlayerOrException(), "Конфиг бота был перезагружен.");
-                                    return 1;
-                                })
-                        )
+                            .executes(context -> {
+                                ConfigFilesManager.init();
+                                BadWordsManager.init();
+                                configManager = new ConfigManager();
+                                badWordsManager = new
+                                sendMessage(context.getSource().getPlayerOrException(), "Конфиг бота был перезагружен.");
+                                return 1;
+                            })
 //                        .then(Commands.literal("rules")
 //                                .executes(context -> {
 //                                    rulesManager = new RulesManager();
