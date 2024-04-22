@@ -5,7 +5,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.MinecraftServer;
     import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -111,14 +114,37 @@ public class IolhChatBot {
 
                                 String botPrefix = configManager.getConfig("botPrefix");
                                 String botNickname = configManager.getConfig("botNickname");
-                                String muteMessage = "§8" + "[" + "§7" + formattedTime + "§8" + "]" + " " + botPrefix + " " + botNickname + "§8: " + "§6" + playerName + ", нецензурная лексика запрещена! §c/rule " + configManager.getConfig("badWordsRuleNum");
+//                                String muteMessage = "§8" + "[" + "§7" + formattedTime + "§8" + "]" + " " + botPrefix + " " + botNickname + "§8: " + "§6" + playerName + ", нецензурная лексика запрещена! §c/rule " + configManager.getConfig("badWordsRuleNum");
+
+
+
+                                // Создаем основное сообщение
+                                String mainMessage = "§8" + "[" + "§7" + formattedTime + "§8" + "]" + " " + botPrefix + " " + botNickname + "§8: " + "§6" + playerName + ", нецензурная лексика запрещена! ";
+
+                                Component hoverText = Component.literal("§6Нажмите для просмотра правила!");
+
+                                // Создаем стиль для кликабельного текста
+                                Style clickableStyle = Style.EMPTY
+                                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rule " + configManager.getConfig("badWordsRuleNum")))
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
+
+
+                                // Создаем кликабельный текст с применением стиля
+                                Component clickablePart = Component.literal("§c§n/rule " + configManager.getConfig("badWordsRuleNum")).withStyle(clickableStyle);
+
+                                // Объединяем основное сообщение с кликабельной частью
+                                Component completeMessage = Component.literal(mainMessage).append(clickablePart);
+
+
+
+
 //                            try {
 //                                server.getCommands().getDispatcher().execute("say test", sourceStack); //Тут будет мут
 //                            } catch (CommandSyntaxException e) {
 //                                throw new RuntimeException(e);
 //                            }
                                 for (ServerPlayer player : players) {
-                                    player.displayClientMessage(Component.literal(muteMessage), false);
+                                    player.displayClientMessage(completeMessage, false);
                                 }
                             }
                         }, 300);
